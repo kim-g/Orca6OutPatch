@@ -1,4 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using Orca6OutPatch;
+
 if (args.Length == 0)
 {
     Console.WriteLine("Укажите файл или директорию для конвертации");
@@ -8,7 +10,8 @@ if (args.Length == 0)
 
 foreach (string arg in args)
 {
-    Console.WriteLine(arg);
+    Patcher patcher = new Patcher(arg);
+    patcher.Patch();
 }
 
 Console.ReadKey();
