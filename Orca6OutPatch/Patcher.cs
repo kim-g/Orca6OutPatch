@@ -28,7 +28,9 @@ namespace Orca6OutPatch
 
             fileName = FileName.Trim();
             string FN = Path.GetFileNameWithoutExtension(fileName);
-            patchedFileName = FN + "_p.out";
+            string FP = new FileInfo(fileName).Directory.FullName;
+            string FE = Path.GetExtension(fileName);
+            patchedFileName = Path.Combine(FP, FN + $"_p{FE}");
         }
 
         /// <summary>
