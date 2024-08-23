@@ -41,6 +41,7 @@ namespace Orca6OutPatch
             using (StreamWriter writer = new StreamWriter(patchedFileName, false))
             {
                 int n = 0;
+                bool patched = true;
                 string line;
                 while ((line = file.ReadLine()) != null)
                 {
@@ -51,8 +52,8 @@ namespace Orca6OutPatch
                         // Пропустим 4 строки
                         for (int i = 0; i < 4; i++)
                         {
-                            file.ReadLine();
-                            writer.WriteLine("");
+                            line = file.ReadLine();
+                            writer.WriteLine(line);
                             n++;
                         }
 
@@ -60,9 +61,16 @@ namespace Orca6OutPatch
                         {
                             if (line == null) break;
                             n++;
+
+                            if (line[4] == ':')
+                            {
+                                patched = false;
+                                writer.WriteLine(line);
+                                continue;
+                            }
+
                             line = line.Remove(0, 2);
                             line = line.Replace(":", ":  ");
-                            line = line.Replace("^", "  ");
                             writer.WriteLine(line);
                             
                         }
@@ -70,7 +78,9 @@ namespace Orca6OutPatch
                     }
                 }
 
-                Console.WriteLine($"Патч файла {patchedFileName} завершён");
+                Console.WriteLine(patched 
+                    ? $"Патч файла {patchedFileName} завершён"
+                    : $"Патч файла {patchedFileName} не выполнен. Файл уже имеет правильную структуру.");
             }
 
             return false;

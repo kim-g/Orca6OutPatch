@@ -8,10 +8,15 @@ if (args.Length == 0)
     return;
 }
 
+List<Task> tasks = new List<Task>();
+
 foreach (string arg in args)
 {
     Patcher patcher = new Patcher(arg);
-    patcher.Patch();
+    tasks.Add(Task.Factory.StartNew(() => patcher.Patch()));
 }
 
+Task.WaitAll(tasks.ToArray());
+Console.WriteLine("");
+Console.WriteLine("=== Все задачи завершены ===");
 Console.ReadKey();
