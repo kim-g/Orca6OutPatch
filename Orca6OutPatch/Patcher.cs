@@ -37,6 +37,8 @@ namespace Orca6OutPatch
         /// <returns></returns>
         public bool Patch()
         {
+            if (fileName == null) return false;
+            
             using (StreamReader file = new StreamReader(fileName))
             using (StreamWriter writer = new StreamWriter(patchedFileName, false))
             {
@@ -81,6 +83,7 @@ namespace Orca6OutPatch
                 Console.WriteLine(patched 
                     ? $"Патч файла {patchedFileName} завершён"
                     : $"Патч файла {patchedFileName} не выполнен. Файл уже имеет правильную структуру.");
+                return true;
             }
 
             return false;
